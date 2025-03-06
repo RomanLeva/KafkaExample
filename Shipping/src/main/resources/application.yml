@@ -1,5 +1,6 @@
+
 server:
-  port: 8082
+  port: 8083
 spring:
   kafka:
     bootstrap-servers: localhost:9092
@@ -11,11 +12,11 @@ spring:
         retries: 3
         enable.idempotence: true
     consumer:
-      group-id: payment-group
+      group-id: shipping-group
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
         spring:
           json:
             trusted:
-              packages: group.payment
+              packages: group.shipping

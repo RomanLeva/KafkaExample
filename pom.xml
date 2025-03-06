@@ -17,6 +17,8 @@
 
     <modules>
         <module>Orders</module>
+        <module>Shipping</module>
+        <module>Notifications</module>
     </modules>
 
     <url/>

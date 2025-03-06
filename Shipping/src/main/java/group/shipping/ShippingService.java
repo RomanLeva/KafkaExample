@@ -1,4 +1,4 @@
-package group.payment;
+package group.shipping;
 
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.slf4j.Logger;
@@ -6,18 +6,17 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 
-import java.lang.String;
 import java.util.concurrent.CompletableFuture;
 
 @Service
-public class PaymentService {
+public class ShippingService {
     private final Logger logger;
     private final KafkaTemplate<String, String> kafkaTemplate;
 
     private static final int retry = 3;
     private int retryCount = 0;
 
-    public PaymentService(Logger logger, KafkaTemplate<String, String> kafkaTemplate) {
+    public ShippingService(Logger logger, KafkaTemplate<String, String> kafkaTemplate) {
         this.logger = logger;
         this.kafkaTemplate = kafkaTemplate;
     }
@@ -25,9 +24,9 @@ public class PaymentService {
     public void handleOrder(String order){
         logger.info("Received order: {}", order);
         try {
-            // Логика оплаты заказа...
+            // Логика отправки заказа...
 
-            CompletableFuture<SendResult<String, String>> future = kafkaTemplate.send("payed_orders", order);
+            CompletableFuture<SendResult<String, String>> future = kafkaTemplate.send("sent_orders", order);
 
             future.whenComplete((result, ex) -> {
                 if (ex == null) {
@@ -48,9 +47,9 @@ public class PaymentService {
                     handleOrder(order);
                 }
             });
-            logger.info("Order payed successfully: {}", order);
+            logger.info("Payed order goes shipping successfully: {}", order);
         } catch (Exception e) {
-            logger.error("Error paying order: {}", order, e);
+            logger.error("Error processing payed order shipment: {}", order, e);
             throw e;
         }
 

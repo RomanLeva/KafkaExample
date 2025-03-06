@@ -1,15 +1,9 @@
+
 server:
-  port: 8082
+  port: 8084
 spring:
   kafka:
     bootstrap-servers: localhost:9092
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-      properties:
-        acks: all
-        retries: 3
-        enable.idempotence: true
     consumer:
       group-id: payment-group
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
@@ -18,4 +12,4 @@ spring:
         spring:
           json:
             trusted:
-              packages: group.payment
+              packages: group.notifications
