@@ -33,7 +33,11 @@ public class OrdersService {
                         ", offset = " + metadata.offset());
             } else {
                 if (retryCount >= retry) return;
-
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
                 logger.info("Failed to send message: " + ex.getMessage() + " Trying one more time..." + " Retries left: " + retryCount);
                 retryCount++;
                 sendOrder(order);
